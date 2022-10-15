@@ -8,18 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 export class BaseRespository {
-    constructor() {
-        this.databaseMemory = [];
-    }
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.databaseMemory.push(data);
+            return yield (window === null || window === void 0 ? void 0 : window.databaseMemory.push(data));
         });
     }
     ;
     update(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.databaseMemory.map((item) => {
+            return yield window.databaseMemory.map((item) => {
                 if (item.id === data.id) {
                     return Object.assign(Object.assign({}, item), data);
                 }
@@ -30,14 +27,17 @@ export class BaseRespository {
     ;
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.databaseMemory.filter((x) => x.id !== id);
+            return yield (window === null || window === void 0 ? void 0 : window.databaseMemory.filter((x) => x.id !== id));
         });
     }
     ;
     get(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.databaseMemory.find((x) => x.id === id);
+            return yield (window === null || window === void 0 ? void 0 : window.databaseMemory.find((x) => x.id === id));
         });
     }
     ;
+    logger() {
+        console.log('[CustomerRepository]: databaseMemory value ', window === null || window === void 0 ? void 0 : window.databaseMemory);
+    }
 }

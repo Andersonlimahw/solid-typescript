@@ -4,10 +4,11 @@ import { IBaseInput } from '../../../../Domain/Interfaces/UseCases/IBaseInput.js
 import { IBaseUseCase } from '../../../../Domain/Interfaces/UseCases/IBaseUseCase.js';
 
 import { CustomerRepository } from '../../../../Infra/Data/Customer/CustomerRepository';
-import { GetCustomerInput } from '../GetCustomerUseCase/Input.js';
-import { GetOutputCustomer } from '../GetCustomerUseCase/Output.js';
+import { DeleteCustomerInput } from './Input.js';
+import { DeleteOutputCustomer } from './Output.js';
 
-export class GetCustomerUseCase implements IBaseUseCase<string, GetOutputCustomer> {
+
+export class DeleteCustomerUseCase implements IBaseUseCase<string, DeleteOutputCustomer> {
     private _customerRepository : CustomerRepository;
     constructor(
         customerRepository: CustomerRepository
@@ -16,13 +17,13 @@ export class GetCustomerUseCase implements IBaseUseCase<string, GetOutputCustome
     }
  
     async handle(input: IBaseInput<string>){
-        const customerInput = new GetCustomerInput(input.data);
-        const response = await this._customerRepository.get(customerInput.data);
+        const customerInput = new DeleteCustomerInput(input.data);
+        const response = await this._customerRepository.delete(customerInput.data);
         this._customerRepository.logger();
-        return new GetOutputCustomer(
-            response, 
-            response !== undefined,
-            200
+        return new DeleteOutputCustomer(
+            true,
+            true,
+            204
         );
     };
 

@@ -1,13 +1,12 @@
 import { IBaseOutPut } from '../../../../Domain/Interfaces/UseCases/IBaseOutput.js';
-import { CustomerModel } from '../../../../Domain/Models/Customer/index.js';
 
-export class GetOutputCustomer implements IBaseOutPut<CustomerModel> {
-    data: CustomerModel;
+export class DeleteOutputCustomer implements IBaseOutPut<boolean> {
+    data: boolean;
     success: boolean;
     statusCode: number;
     errors?: any[] | undefined;
     
-    constructor(data : CustomerModel, success: boolean, statusCode: number, errors?: any[]) {
+    constructor(data : boolean, success: boolean, statusCode: number, errors?: any[]) {
         this.data = data;
         this.success = success;
         this.statusCode = statusCode;

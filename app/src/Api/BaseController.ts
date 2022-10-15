@@ -20,7 +20,7 @@ export abstract class BaseController<T> {
     public get version() {
         return this._version;
     }
-
+    
     abstract get(id: any) : any;
     abstract post(data: T): any;
     abstract put(data: T): any;

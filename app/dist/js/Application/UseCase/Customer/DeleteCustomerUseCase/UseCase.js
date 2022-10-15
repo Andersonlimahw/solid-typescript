@@ -7,18 +7,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { GetCustomerInput } from '../GetCustomerUseCase/Input.js';
-import { GetOutputCustomer } from '../GetCustomerUseCase/Output.js';
-export class GetCustomerUseCase {
+import { DeleteCustomerInput } from './Input.js';
+import { DeleteOutputCustomer } from './Output.js';
+export class DeleteCustomerUseCase {
     constructor(customerRepository) {
         this._customerRepository = customerRepository;
     }
     handle(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            const customerInput = new GetCustomerInput(input.data);
-            const response = yield this._customerRepository.get(customerInput.data);
+            const customerInput = new DeleteCustomerInput(input.data);
+            const response = yield this._customerRepository.delete(customerInput.data);
             this._customerRepository.logger();
-            return new GetOutputCustomer(response, response !== undefined, 200);
+            return new DeleteOutputCustomer(true, true, 204);
         });
     }
     ;
