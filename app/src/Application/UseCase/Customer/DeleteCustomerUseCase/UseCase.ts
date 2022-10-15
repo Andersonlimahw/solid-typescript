@@ -18,7 +18,7 @@ export class DeleteCustomerUseCase implements IBaseUseCase<string, DeleteOutputC
  
     async handle(input: IBaseInput<string>){
         const customerInput = new DeleteCustomerInput(input.data);
-        const response = await this._customerRepository.delete(customerInput.data);
+        await this._customerRepository.delete(customerInput.data);
         this._customerRepository.logger();
         return new DeleteOutputCustomer(
             true,

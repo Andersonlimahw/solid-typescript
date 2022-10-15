@@ -27,7 +27,9 @@ export class BaseRespository {
     ;
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (window === null || window === void 0 ? void 0 : window.databaseMemory.filter((x) => x.id !== id));
+            const updatedDatabase = yield (window === null || window === void 0 ? void 0 : window.databaseMemory.filter((x) => x.id.toString() !== id.toString()));
+            window.databaseMemory = updatedDatabase;
+            return window.databaseMemory;
         });
     }
     ;

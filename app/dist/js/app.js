@@ -13,8 +13,24 @@ const mockCustomer = {
     id: 'dahudadha'
 };
 customerController.post(mockCustomer);
-const firstCustomerId = window.databaseMemory[0].id;
-customerController.get(firstCustomerId);
-customerController.delete(firstCustomerId);
-customerController.post(Object.assign(Object.assign({}, mockCustomer), { id: 'teste', name: 'Lemon' }));
-customerController.get('teste');
+const firstCustomer = window.databaseMemory[0];
+setTimeout(() => {
+    customerController.get(firstCustomer.id);
+    customerController.put(Object.assign(Object.assign({}, firstCustomer), { name: 'Tony Stark' }));
+    customerController.get(firstCustomer.id);
+}, 500);
+setTimeout(() => {
+    customerController.delete(firstCustomer.id);
+}, 1000);
+setTimeout(() => {
+    customerController.get(firstCustomer.id);
+}, 2000);
+setTimeout(() => {
+    customerController.post({
+        id: '1',
+        name: 'Lemon',
+        code: 'dadad',
+        birthDate: new Date()
+    });
+    customerController.get(window.databaseMemory[0].id);
+}, 2000);

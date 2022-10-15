@@ -15,6 +15,8 @@ import { GetCustomerInput } from '../Application/UseCase/Customer/GetCustomerUse
 import { GetCustomerUseCase } from '../Application/UseCase/Customer/GetCustomerUseCase/UseCase.js';
 import { DeleteCustomerUseCase } from '../Application/UseCase/Customer/DeleteCustomerUseCase/UseCase.js';
 import { DeleteCustomerInput } from '../Application/UseCase/Customer/DeleteCustomerUseCase/Input.js';
+import { UpdateCustomerUseCase } from '../Application/UseCase/Customer/UpdateCustomerUseCase/UseCase.js';
+import { UpdateCustomerInput } from '../Application/UseCase/Customer/UpdateCustomerUseCase/Input.js';
 export class CustomerController extends BaseController {
     get(id) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -22,7 +24,7 @@ export class CustomerController extends BaseController {
             const handler = new GetCustomerUseCase(new CustomerRepository());
             const result = yield handler.handle(new GetCustomerInput(id));
             if (!result.success) {
-                throw new Error(`[CustomerController]:get(), Error: ${JSON.stringify(result)}`);
+                throw new Error(`[CustomerController]:get(), id: ${id} Error: ${JSON.stringify(result)}`);
             }
             console.log('[CustomerController]:get(), result: ', result);
             return result;
@@ -42,7 +44,14 @@ export class CustomerController extends BaseController {
     }
     put(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            throw new Error('Method not implemented.');
+            console.log('[CustomerController]:put(), input: ', data);
+            const handler = new UpdateCustomerUseCase(new CustomerRepository());
+            const result = yield handler.handle(new UpdateCustomerInput(data));
+            if (!result.success) {
+                throw new Error(`[CustomerController]:put(), Error: ${JSON.stringify(result)}`);
+            }
+            console.log('[CustomerController]:put(), result: ', result);
+            return result;
         });
     }
     delete(id) {
