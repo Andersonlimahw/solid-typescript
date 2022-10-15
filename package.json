@@ -1,0 +1,21 @@
+{
+  "name": "solid-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "npx lite-server --baseDir=app",
+    "start": "concurrently \"npm run watch\" \"npm run server\"",
+    "compile": "npx tsc",
+    "watch": "npx tsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^6.0.0",
+    "lite-server": "^2.6.1",
+    "typescript": "^4.2.2"
+  }
+}
