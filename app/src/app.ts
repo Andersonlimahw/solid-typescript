@@ -14,14 +14,16 @@ function initFakeDatabase() {
   }
   initFakeDatabase();
 
+function renderFormatedJson(json: any) {
+    return JSON.stringify(json, null, 4);
+}
+
 function renderResult(elementId: string, content : any) : void {
     const msg = document.querySelector(elementId);
     if(msg) {
         msg.innerHTML = `
             <pre> 
-             <code>
-              ${JSON.stringify(content)}
-             </code>
+              ${renderFormatedJson(content)}
             </pre>
         `;
     }   
@@ -50,6 +52,7 @@ function listCustomers() : void{
 }
 
 // Listners
+const customerByIdInput = document.querySelector("#customerId") as any;
 
 const createCustomerForm = document.querySelector("#customer_form");
 if (createCustomerForm) {
@@ -64,6 +67,7 @@ if (createCustomerForm) {
       email: emailValue.value,
     };
     const result = await customerController.post(customerInput);
+    customerByIdInput.value = result.data.id;
     renderResult('#result_content_create', result);
     listCustomers();
   });
@@ -76,8 +80,7 @@ const getCustomerByIdForm = document.querySelector("#customer_form_get");
 if (getCustomerByIdForm) {
     getCustomerByIdForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const customerIdInput = document.querySelector("#customerId") as any;
-    const result = await customerController.get(customerIdInput.value);
+    const result = await customerController.get(customerByIdInput.value);
     renderResult('#result_content_get', result);
   });
 } else {

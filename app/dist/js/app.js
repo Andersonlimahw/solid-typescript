@@ -15,14 +15,15 @@ function initFakeDatabase() {
     console.log("## Fake Database initilized with value ## ", window.databaseMemory);
 }
 initFakeDatabase();
+function renderFormatedJson(json) {
+    return JSON.stringify(json, null, 4);
+}
 function renderResult(elementId, content) {
     const msg = document.querySelector(elementId);
     if (msg) {
         msg.innerHTML = `
             <pre> 
-             <code>
-              ${JSON.stringify(content)}
-             </code>
+              ${renderFormatedJson(content)}
             </pre>
         `;
     }
@@ -46,6 +47,7 @@ function listCustomers() {
         .map((x) => (renderCustomerItem(x)))
         .join('');
 }
+const customerByIdInput = document.querySelector("#customerId");
 const createCustomerForm = document.querySelector("#customer_form");
 if (createCustomerForm) {
     createCustomerForm === null || createCustomerForm === void 0 ? void 0 : createCustomerForm.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0, function* () {
@@ -59,6 +61,7 @@ if (createCustomerForm) {
             email: emailValue.value,
         };
         const result = yield customerController.post(customerInput);
+        customerByIdInput.value = result.data.id;
         renderResult('#result_content_create', result);
         listCustomers();
     }));
@@ -70,8 +73,7 @@ const getCustomerByIdForm = document.querySelector("#customer_form_get");
 if (getCustomerByIdForm) {
     getCustomerByIdForm === null || getCustomerByIdForm === void 0 ? void 0 : getCustomerByIdForm.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0, function* () {
         event.preventDefault();
-        const customerIdInput = document.querySelector("#customerId");
-        const result = yield customerController.get(customerIdInput.value);
+        const result = yield customerController.get(customerByIdInput.value);
         renderResult('#result_content_get', result);
     }));
 }

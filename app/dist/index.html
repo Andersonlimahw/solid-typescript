@@ -6,87 +6,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Solid with typescript</title>
     <link rel="stylesheet" href="css/bootstrap.css">
+
+    <style>
+        body {
+            background: #121212;
+            color: #f1f1f1;
+            padding: 32px 0;
+            font-family: sans-serif;
+        }
+
+        .controller_title {
+            color: #007bff;
+            font-style: italic;
+        }
+
+        .custom_card {
+            padding: 16px;
+        }
+
+        .custom_card h2 {
+            padding: 16px 0;
+        }
+        .custom_card form {
+            padding: 0;
+        }
+
+        .result {
+            width: 100%;
+            background: #ccc;
+            color: #121212;
+            white-space: pre;
+            border-top: 2px solid #007bff;
+            z-index: 999;
+            cursor: pointer;
+        }
+        .result:hover {
+            border-top-width: 4px;
+            border-bottom: 4px solid #007bff;
+        }
+        .result::before {
+            content: "Result:";
+            display: block;
+            padding: 8px;
+        }
+    </style>
 </head>
 
 <body class="container">
     <h1>
         Interative documentation
     </h1>
-    <h1>
+    <h1 class="controller_title">
         Customers
     </h1>
-    <h2>
-        POST customers
-    </h2>
-    <form id="customer_form" class="container">
-        <div class="col-xs-12 col-md-4">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">@</span>
+    <div class="custom_card">
+        <h2>
+            POST customers
+        </h2>
+        <form id="customer_form" class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                        </div>
+                        <input required id="name" type="text" class="form-control" placeholder="Username"
+                            aria-label="Username" name="name" aria-describedby="basic-addon1">
+                    </div>
                 </div>
-                <input required id="name" type="text" class="form-control" placeholder="Username" aria-label="Username"
-                    name="name" aria-describedby="basic-addon1">
-            </div>
-        </div>
-        <div class="col-xs-12 col-md-4">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">@</span>
+                <div class="col-xs-12 col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                        </div>
+                        <input required id="email" type="email" class="form-control" placeholder="mail@mail.com"
+                            aria-label="email" aria-describedby="basic-addon1" name="email">
+                    </div>
                 </div>
-                <input required id="email" type="email" class="form-control" placeholder="mail@mail.com"
-                    aria-label="email" aria-describedby="basic-addon1" name="email">
+                <div class="col-xs-12 col-md-4">
+                    <button type="submit" class="btn btn-primary" placeholder="Username" aria-label="save"
+                        aria-describedby="basic-addon1" name="save">
+                        send
+                    </button>
+                </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-md-4">
-            <button type="submit" class="btn btn-primary" placeholder="Username" aria-label="save"
-                aria-describedby="basic-addon1" name="save">
-                send
-            </button>
-        </div>
-        <p>
-            Result:
-        </p>
-        <div id="result_content_create" style="white-space:pre" class="alert alert-primary" role="alert">
             
-        </div>
-    </form>
-
-    <h2>
-        GET customers
-    </h2>
-    <button id="get_customer_button" type="button" class="btn btn-primary">send</button>
-    <div id="result_content_list" style="white-space:pre" class="alert alert-primary" role="alert">
-            
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div id="result_content_create" class="result" role="alert">
+        
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <h2>
-        GET customers/{id}
-    </h2>
-    <form id="customer_form_get" class="container">
-        <div class="col-xs-12 col-md-4">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">@</span>
+    <div class="custom_card">
+        <h2>
+            GET customers
+        </h2>
+        <button id="get_customer_button" type="button" class="btn btn-primary">send</button>
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div id="result_content_list" class="result" role="alert">
+    
                 </div>
-                <input id="customerId" type="text" class="form-control" placeholder="customer id" aria-label="customer id"
-                    name="customerId" aria-describedby="basic-addon1">
             </div>
         </div>
-        <div class="col-xs-12 col-md-4">
-            <button type="submit" class="btn btn-primary" placeholder="Username" aria-label="save"
-                aria-describedby="basic-addon1" name="save">
-                send
-            </button>
-        </div>
-        <p>
-            Result:
-        </p>
-        <div id="result_content_get" style="white-space:pre" class="alert alert-primary" role="alert">
-            
-        </div>
-    </form>
+    </div>
 
-   
+    <div class="custom_card">
+        <h2>
+            GET customers/{id}
+        </h2>
+        <form id="customer_form_get" class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                        </div>
+                        <input id="customerId" type="text" class="form-control" placeholder="customer id"
+                            aria-label="customer id" name="customerId" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <button type="submit" class="btn btn-primary" placeholder="Username" aria-label="save"
+                        aria-describedby="basic-addon1" name="save">
+                        send
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div id="result_content_get" class="result" role="alert">
+        
+                    </div>
+                </div>
+            </div>
+            
+
+        </form>
+    </div>
+
     <script type="module" src="js/app.js"></script>
 </body>
 
