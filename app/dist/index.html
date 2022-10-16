@@ -16,8 +16,17 @@
         }
 
         .controller_title {
-            color: #007bff;
             font-style: italic;
+            padding: 8px 0;
+        }
+
+        .controller_title:after {
+            content: "";
+            display: block;
+            height: 4px;
+            background: #f1f1f1;
+            width: 216px;
+            margin-top: 8px;
         }
 
         .custom_card {
@@ -61,7 +70,7 @@
     </h1>
     <div class="custom_card">
         <h2>
-            POST customers
+            <span class="badge badge-success">POST</span> customers
         </h2>
         <form id="customer_form" class="container">
             <div class="row">
@@ -103,7 +112,7 @@
 
     <div class="custom_card">
         <h2>
-            GET customers
+            <span class="badge badge-primary">GET</span> customers
         </h2>
         <button id="get_customer_button" type="button" class="btn btn-primary">send</button>
         <div class="row">
@@ -117,7 +126,7 @@
 
     <div class="custom_card">
         <h2>
-            GET customers/{id}
+            <span class="badge badge-primary">GET</span> customers/{id}
         </h2>
         <form id="customer_form_get" class="container">
             <div class="row">
@@ -142,6 +151,42 @@
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <div id="result_content_get" class="result" role="alert">
+        
+                    </div>
+                </div>
+            </div>
+            
+
+        </form>
+    </div>
+
+    <div class="custom_card">
+        <h2>
+            <span class="badge badge-danger">DELETE</span> customers/{id}
+        </h2>
+        <form id="customer_form_delete" class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                        </div>
+                        <input id="customerIdToDelete" type="text" class="form-control" placeholder="customer id"
+                            aria-label="customer id" name="customerIdToDelete" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <button type="submit" class="btn btn-primary" placeholder="Username" aria-label="save"
+                        aria-describedby="basic-addon1" name="save">
+                        send
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div id="result_content_delete" class="result" role="alert">
         
                     </div>
                 </div>

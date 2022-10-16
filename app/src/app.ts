@@ -53,6 +53,7 @@ function listCustomers() : void{
 
 // Listners
 const customerByIdInput = document.querySelector("#customerId") as any;
+const customerIdToDelete = document.querySelector("#customerIdToDelete") as any;
 
 const createCustomerForm = document.querySelector("#customer_form");
 if (createCustomerForm) {
@@ -68,6 +69,7 @@ if (createCustomerForm) {
     };
     const result = await customerController.post(customerInput);
     customerByIdInput.value = result.data.id;
+    customerIdToDelete.value = result.data.id;
     renderResult('#result_content_create', result);
     listCustomers();
   });
@@ -78,10 +80,22 @@ if (createCustomerForm) {
 
 const getCustomerByIdForm = document.querySelector("#customer_form_get");
 if (getCustomerByIdForm) {
-    getCustomerByIdForm?.addEventListener("submit", async (event) => {
+    getCustomerByIdForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const result = await customerController.get(customerByIdInput.value);
     renderResult('#result_content_get', result);
+  });
+} else {
+  throw new Error("Formulário não encontrado");
+}
+
+const deleteCustomerByIdForm = document.querySelector("#customer_form_delete");
+if (deleteCustomerByIdForm) {
+    deleteCustomerByIdForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const result = await customerController.delete(customerIdToDelete.value);
+    renderResult('#result_content_delete', result);
   });
 } else {
   throw new Error("Formulário não encontrado");
@@ -96,3 +110,4 @@ if (listCustomersButton) {
 } else {
   throw new Error("botao nao encontrado não encontrado");
 }
+
