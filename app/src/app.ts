@@ -1,58 +1,95 @@
-console.log('## App initilized ## ');
+console.log("## App initilized ## ");
 
-function initFakeDatabase() {
-    (window as any).databaseMemory = [];
-    console.log('## Fake Database initilized with value ## ', (window as any).databaseMemory);
-}
-initFakeDatabase();
-
-import { CustomerController } from './Api/CustomerController.js';
-import { CustomerModel } from './Domain/Models/Customer/index.js';
+import { CustomerController } from "./Api/CustomerController.js";
+import { CustomerModel } from "./Domain/Models/Customer/index.js";
 const customerController = new CustomerController("customers");
 
-const mockCustomer : CustomerModel = {
-    code: 'Abc12452415',
-    name: 'Anderson Lima',
-    birthDate: new Date(),
-    id: 'dahudadha' // TODO: usar autogeneator e n receber no input
+// Functions
+function initFakeDatabase() {
+    (window as any).databaseMemory = [];
+    console.log(
+      "## Fake Database initilized with value ## ",
+      (window as any).databaseMemory
+    );
+  }
+  initFakeDatabase();
+
+function renderResult(elementId: string, content : any) : void {
+    const msg = document.querySelector(elementId);
+    if(msg) {
+        msg.innerHTML = `
+            <pre> 
+             <code>
+              ${JSON.stringify(content)}
+             </code>
+            </pre>
+        `;
+    }   
 }
 
-customerController.post(mockCustomer);
-const firstCustomer : CustomerModel = (window as any).databaseMemory[0];
-// Update customer:
-setTimeout(() => {
-    customerController.get(firstCustomer.id); 
-    customerController.put({
-        ...firstCustomer,
-        name: 'Tony Stark'
-    });
-    customerController.get(firstCustomer.id); 
-}, 500);
+const renderCustomerItem = (customer : CustomerModel) : string => {
+    return (`
+    <div class="row">
+        <div class="col-xs-12">
+            <b>id: </b> ${customer.id}
+            <b>Code: </b> ${customer.code}
+            <b>Name: </b> ${customer.name}
+            <b>Email: </b> ${customer.email}
+        </div>
+    </div>
+`)  
+}
 
-setTimeout(() => {
-    customerController.delete(firstCustomer.id);
-}, 1000);
+function listCustomers() : void{
+    const result = (window as any).databaseMemory;
+    const resultMsg = document.querySelector("#result_content_list") as HTMLElement;
+   
+    resultMsg.innerHTML = result
+        .map((x : CustomerModel) => (renderCustomerItem(x)))
+        .join('');
+}
 
-setTimeout(() => {
-    customerController.get(firstCustomer.id);
-}, 2000);
+// Listners
 
-setTimeout(() => {
-    customerController.post({
-        id: '1',
-        name: 'Lemon',
-        code: 'dadad',
-        birthDate: new Date()
-    });
-    customerController.get((window as any).databaseMemory[0].id)
-}, 2000);
+const createCustomerForm = document.querySelector("#customer_form");
+if (createCustomerForm) {
+  createCustomerForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const nameValue = document.querySelector("#name") as any;
+    const emailValue = document.querySelector("#email") as any;
+    const customerInput: CustomerModel = {
+      id: "",
+      code: "",
+      name: nameValue.value,
+      email: emailValue.value,
+    };
+    const result = await customerController.post(customerInput);
+    renderResult('#result_content_create', result);
+    listCustomers();
+  });
+} else {
+  throw new Error("Formulário não encontrado");
+}
 
 
-// // Must return error:
-// customerController.post({
-//     ...mockCustomer,
-//     id: 'teste', 
-//     name: 'Lemon'
-// });
-// customerController.get('teste');
+const getCustomerByIdForm = document.querySelector("#customer_form_get");
+if (getCustomerByIdForm) {
+    getCustomerByIdForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const customerIdInput = document.querySelector("#customerId") as any;
+    const result = await customerController.get(customerIdInput.value);
+    renderResult('#result_content_get', result);
+  });
+} else {
+  throw new Error("Formulário não encontrado");
+}
 
+
+const listCustomersButton = document.querySelector("#get_customer_button");
+if (listCustomersButton) {
+    listCustomersButton?.addEventListener("click", async () => {
+    listCustomers();
+  });
+} else {
+  throw new Error("botao nao encontrado não encontrado");
+}
