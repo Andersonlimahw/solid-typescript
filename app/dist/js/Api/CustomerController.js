@@ -18,10 +18,14 @@ import { DeleteCustomerInput } from '../Application/UseCase/Customer/DeleteCusto
 import { UpdateCustomerUseCase } from '../Application/UseCase/Customer/UpdateCustomerUseCase/UseCase.js';
 import { UpdateCustomerInput } from '../Application/UseCase/Customer/UpdateCustomerUseCase/Input.js';
 export class CustomerController extends BaseController {
+    constructor(...args) {
+        super(args),
+            this._customerRepository = new CustomerRepository();
+    }
     get(id) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('[CustomerController]:get(), input: ', id);
-            const handler = new GetCustomerUseCase(new CustomerRepository());
+            const handler = new GetCustomerUseCase(this._customerRepository);
             const result = yield handler.handle(new GetCustomerInput(id));
             if (!result.success) {
                 throw new Error(`[CustomerController]:get(), id: ${id} Error: ${JSON.stringify(result)}`);
@@ -33,7 +37,7 @@ export class CustomerController extends BaseController {
     post(data) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('[CustomerController]:post(), input: ', data);
-            const handler = new CreateCustomerUseCase(new CustomerRepository());
+            const handler = new CreateCustomerUseCase(this._customerRepository);
             const result = yield handler.handle(new CreateCustomerInput(data));
             if (!result.success) {
                 throw new Error(`[CustomerController]:post(), Error: ${JSON.stringify(result)}`);
@@ -45,7 +49,7 @@ export class CustomerController extends BaseController {
     put(data) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('[CustomerController]:put(), input: ', data);
-            const handler = new UpdateCustomerUseCase(new CustomerRepository());
+            const handler = new UpdateCustomerUseCase(this._customerRepository);
             const result = yield handler.handle(new UpdateCustomerInput(data));
             if (!result.success) {
                 throw new Error(`[CustomerController]:put(), Error: ${JSON.stringify(result)}`);
@@ -57,7 +61,7 @@ export class CustomerController extends BaseController {
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('[CustomerController]:get(), input: ', id);
-            const handler = new DeleteCustomerUseCase(new CustomerRepository());
+            const handler = new DeleteCustomerUseCase(this._customerRepository);
             const result = yield handler.handle(new DeleteCustomerInput(id));
             if (!result.success) {
                 throw new Error(`[CustomerController]:delete(), Error: ${JSON.stringify(result)}`);

@@ -13,4 +13,5 @@ export class GetOutputCustomer implements IBaseOutPut<CustomerModel> {
         this.statusCode = statusCode;
         this.errors = errors;
     }
+    
 }

@@ -18,7 +18,8 @@ export class GetCustomerUseCase {
             const customerInput = new GetCustomerInput(input.data);
             const response = yield this._customerRepository.get(customerInput.data);
             this._customerRepository.logger();
-            return new GetOutputCustomer(response, response !== undefined, 200);
+            const statusCode = response ? 200 : 400;
+            return new GetOutputCustomer(response, response !== undefined, statusCode);
         });
     }
     ;

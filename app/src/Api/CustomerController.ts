@@ -12,10 +12,16 @@ import { UpdateCustomerInput } from '../Application/UseCase/Customer/UpdateCusto
 
 export class CustomerController extends BaseController<CustomerModel> {
 
+    private _customerRepository : CustomerRepository;
+    constructor(...args : any){
+        super(args),
+        this._customerRepository = new CustomerRepository();
+    }
+
     async get(id: string) {
         console.log('[CustomerController]:get(), input: ', id);
         // Dependcy: Injection with class
-        const handler = new GetCustomerUseCase(new CustomerRepository());
+        const handler = new GetCustomerUseCase(this._customerRepository);
         const result = await handler.handle(new GetCustomerInput(id));
         if(!result.success){
             throw new Error(`[CustomerController]:get(), id: ${id} Error: ${JSON.stringify(result)}`);
@@ -27,7 +33,7 @@ export class CustomerController extends BaseController<CustomerModel> {
     async post(data: CustomerModel) {
         console.log('[CustomerController]:post(), input: ', data);
         // Dependcy: Injection with class
-        const handler = new CreateCustomerUseCase(new CustomerRepository());
+        const handler = new CreateCustomerUseCase(this._customerRepository);
         const result = await handler.handle(new CreateCustomerInput(data));
         if(!result.success){
             throw new Error(`[CustomerController]:post(), Error: ${JSON.stringify(result)}`);
@@ -39,7 +45,7 @@ export class CustomerController extends BaseController<CustomerModel> {
     async put(data: CustomerModel) {
         console.log('[CustomerController]:put(), input: ', data);
         // Dependcy: Injection with class
-        const handler = new UpdateCustomerUseCase(new CustomerRepository());
+        const handler = new UpdateCustomerUseCase(this._customerRepository);
         const result = await handler.handle(new UpdateCustomerInput(data));
         if(!result.success){
             throw new Error(`[CustomerController]:put(), Error: ${JSON.stringify(result)}`);
@@ -51,7 +57,7 @@ export class CustomerController extends BaseController<CustomerModel> {
     async delete(id: any) {
         console.log('[CustomerController]:get(), input: ', id);
         // Dependcy: Injection with class
-        const handler = new DeleteCustomerUseCase(new CustomerRepository());
+        const handler = new DeleteCustomerUseCase(this._customerRepository);
         const result = await handler.handle(new DeleteCustomerInput(id));
         if(!result.success){
             throw new Error(`[CustomerController]:delete(), Error: ${JSON.stringify(result)}`);

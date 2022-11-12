@@ -19,10 +19,11 @@ export class GetCustomerUseCase implements IBaseUseCase<string, GetOutputCustome
         const customerInput = new GetCustomerInput(input.data);
         const response = await this._customerRepository.get(customerInput.data);
         this._customerRepository.logger();
+        const statusCode = response ? 200 : 400;
         return new GetOutputCustomer(
             response, 
             response !== undefined,
-            200
+            statusCode
         );
     };
 
